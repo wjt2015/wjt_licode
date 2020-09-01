@@ -3,8 +3,8 @@
 # wjt_licode
 学习licode源码
 
-https://github.com/lynckia/licode
-http://lynckia.com/licode/
+移植于:https://github.com/lynckia/licode
+官网:http://lynckia.com/licode/
 
 
 
