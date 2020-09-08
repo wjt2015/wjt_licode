@@ -50,6 +50,14 @@ const checkSignature = (params, key) => {
  * If the authentication success exports the service and the user and role (if needed).
  * Else send back a response with an authentication request to the client.
  */
+
+exports.authenticate = (req, res, next) => {
+  next();
+}
+
+
+/*
+暂时注释掉权限验证;
 exports.authenticate = (req, res, next) => {
   const authHeader = req.header('Authorization');
   const challengeReq = 'MAuth realm="http://marte3.dit.upm.es"';
@@ -98,3 +106,4 @@ exports.authenticate = (req, res, next) => {
     res.status(401).send({ 'WWW-Authenticate': challengeReq });
   }
 };
+*/
