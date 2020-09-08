@@ -53,6 +53,7 @@ const checkSignature = (params, key) => {
 
 exports.authenticate = (req, res, next) => {
   next();
+  log.info(`message: authenticate successfully;req=${req};res=${res};next=${next};`);
 }
 
 
