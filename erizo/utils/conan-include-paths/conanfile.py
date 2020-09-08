@@ -15,11 +15,14 @@ class IncludePathsGenerator(Generator):
 
     @property
     def filename(self):
+        print("BUILD_INFO_COMPILER_ARGS={};".format(BUILD_INFO_COMPILER_ARGS))
         return BUILD_INFO_COMPILER_ARGS
 
     @property
     def compiler(self):
-        return self.conanfile.settings.get_safe("compiler")
+        r=self.conanfile.settings.get_safe("compiler")
+        print("r={};self.conanfile.settings={};".format(r,self.conanfile.settings))
+        return self.conanfile.settings
 
     @property
     def content(self):
@@ -29,10 +32,18 @@ class IncludePathsGenerator(Generator):
         $ cl /EHsc main.c @conanbuildinfo.args
         """
         flags = []
-        #flags.extend(format_defines(self._deps_build_info.defines))
-        flags.extend(format_include_paths(self._deps_build_info.include_paths,
-                                          compiler=self.compiler))
 
+        print("include_paths={};compiler={};".format(self._deps_build_info.include_paths,self.compiler))
+
+        #flags.extend(format_defines(self._deps_build_info.defines))
+        #flags.extend(format_include_paths(self._deps_build_info.include_paths,compiler=self.compiler))
+
+        ##include_paths=format_include_paths(self._deps_build_info.include_paths,{"compiler":"gcc"})
+        include_paths=format_include_paths(self._deps_build_info.include_paths,self.compiler)
+        print("before_flags.extend_flags={};include_paths={};".format(flags,include_paths))
+        flags.extend(include_paths)
+
+        print("after_flags.extend_flags={};".format(flags))
         #flags.extend(self._deps_build_info.cxxflags)
         #flags.extend(self._deps_build_info.cflags)
 
@@ -72,11 +83,16 @@ class IncludePathsGenerator(Generator):
         #if sysrf:
         #    flags.append(sysrf)
 
-        return " ".join(flag for flag in flags if flag)
+        s=" ".join(flag for flag in flags if flag)
+        print("s={};".format(s))
+        return s
 
     def _libcxx_flags(self):
+        print("_libcxx_flags;self={};".format(self))
         libcxx = self.conanfile.settings.get_safe("compiler.libcxx")
         compiler = self.conanfile.settings.get_safe("compiler")
+
+        print("libcxx={};compiler={};".format(libcxx,compiler))
 
         lib_flags = []
         if libcxx:

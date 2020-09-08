@@ -12,6 +12,7 @@ maybeRemoveObjDir() {
 }
 
 cleanAll() {
+  echo "cleanAll;BIN_DIR="$BIN_DIR
   if [ -d $BIN_DIR ]; then
     cd $BIN_DIR
     for RELEASE_DIR in */ ; do
